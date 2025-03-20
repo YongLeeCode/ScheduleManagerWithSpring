@@ -1,9 +1,11 @@
 package com.schedulemanager.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.schedulemanager.dto.TaskRequestDto;
+import com.schedulemanager.dto.TaskResponseDto;
+import com.schedulemanager.service.TaskService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author : yong
@@ -19,9 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/schedule-manager")
 public class TaskController {
+    TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @PostMapping
-    public void addNewTask(@RequestBody ) {
+    public void addNewTask(@RequestBody TaskRequestDto dto) {
+        taskService.saveTask(dto);
+    }
 
+    @GetMapping
+    public List<TaskResponseDto> findAll() {
+        return taskService.findAllTasks();
     }
 }
