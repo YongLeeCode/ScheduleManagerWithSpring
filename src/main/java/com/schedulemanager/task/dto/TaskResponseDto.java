@@ -1,6 +1,6 @@
-package com.schedulemanager.dto;
+package com.schedulemanager.task.dto;
 
-import com.schedulemanager.entity.Task;
+import com.schedulemanager.task.entity.Task;
 import lombok.Getter;
 
 import java.sql.Timestamp;

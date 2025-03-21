@@ -1,4 +1,4 @@
-package com.schedulemanager.entity;
+package com.schedulemanager.task.entity;
 
 import lombok.Getter;
 

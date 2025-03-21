@@ -1,9 +1,9 @@
-package com.schedulemanager.service;
+package com.schedulemanager.task.service;
 
-import com.schedulemanager.dto.TaskRequestDto;
-import com.schedulemanager.dto.TaskResponseDto;
-import com.schedulemanager.entity.Task;
-import com.schedulemanager.repository.TaskRepository;
+import com.schedulemanager.task.dto.TaskRequestDto;
+import com.schedulemanager.task.dto.TaskResponseDto;
+import com.schedulemanager.task.entity.Task;
+import com.schedulemanager.task.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

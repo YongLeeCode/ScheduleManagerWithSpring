@@ -1,6 +1,6 @@
-package com.schedulemanager.repository;
+package com.schedulemanager.task.repository;
 
-import com.schedulemanager.entity.Task;
+import com.schedulemanager.task.entity.Task;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,8 @@
-package com.schedulemanager.controller;
+package com.schedulemanager.task.controller;
 
-import com.schedulemanager.dto.TaskRequestDto;
-import com.schedulemanager.dto.TaskResponseDto;
-import com.schedulemanager.service.TaskService;
+import com.schedulemanager.task.dto.TaskRequestDto;
+import com.schedulemanager.task.dto.TaskResponseDto;
+import com.schedulemanager.task.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * 3/20/25        yong       최초 생성
  */
 @RestController
-@RequestMapping("/schedule-manager")
+@RequestMapping("/schedule-manager/task")
 public class TaskController {
     TaskService taskService;
 
