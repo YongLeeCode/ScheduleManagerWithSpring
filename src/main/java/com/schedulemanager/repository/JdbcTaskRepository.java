@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author : yong
  * @packageName : com.schedulemanager.repository
  * @fileName : JdbcTaskRepository
  * @date : 3/20/25
- * @description :
+ * @description : JDBC를 사용하여 MySQL을 연동하여 DB를 사용하고 있습니다.
  */
 @Repository
 public class JdbcTaskRepository implements TaskRepository{
@@ -37,6 +38,12 @@ public class JdbcTaskRepository implements TaskRepository{
     @Override
     public List<Task> findAll() {
         return jdbcTemplate.query("SELECT * FROM task", taskRowMapper());
+    }
+
+    @Override
+    public Optional<Task> findById(long id) {
+        List<Task> tasks = jdbcTemplate.query("SELECT * FROM task WHERE id = ?", taskRowMapper(), id);
+        return tasks.stream().findAny();
     }
 
     private RowMapper<Task> taskRowMapper() {
