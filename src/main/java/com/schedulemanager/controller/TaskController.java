@@ -12,7 +12,7 @@ import java.util.List;
  * @packageName : com.schedulemanager.controller
  * @fileName : TaskController
  * @date : 3/20/25
- * @description :
+ * @description : Task 관련된 모든 컨트롤러입니다.
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -35,5 +35,10 @@ public class TaskController {
     @GetMapping
     public List<TaskResponseDto> findAll() {
         return taskService.findAllTasks();
+    }
+
+    @GetMapping("/{id}")
+    public TaskResponseDto findTaskById(@PathVariable int id) {
+        return taskService.findTaskById(id);
     }
 }
