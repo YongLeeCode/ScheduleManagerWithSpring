@@ -22,4 +22,8 @@ public interface TaskService {
     List<TaskResponseDto> findAllTasks();
 
     TaskResponseDto findTaskById(long id);
+
+    void updateTask(TaskRequestDto dto, String password, long id);
+
+    void deleteTask(String password, long id);
 }
