@@ -46,6 +46,16 @@ public class JdbcTaskRepository implements TaskRepository{
         return tasks.stream().findAny();
     }
 
+    @Override
+    public void updateById(Task task, String password, long id) {
+        jdbcTemplate.update("UPDATE task SET title = ?, contents = ?, name = ?, updatedAt = ? WHERE id = ? AND password = ?", task.getTitle(), task.getContents(), task.getUserName(), task.getUpdatedAt(), id, password);
+    }
+
+    @Override
+    public void deleteById(String password, long id) {
+        jdbcTemplate.update("DELETE FROM task WHERE id = ? AND password = ?", id, password);
+    }
+
     private RowMapper<Task> taskRowMapper() {
         return new RowMapper<Task>() {
             @Override
