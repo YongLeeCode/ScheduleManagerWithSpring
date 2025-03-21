@@ -1,7 +1,7 @@
-package com.schedulemanager.service;
+package com.schedulemanager.task.service;
 
-import com.schedulemanager.dto.TaskRequestDto;
-import com.schedulemanager.dto.TaskResponseDto;
+import com.schedulemanager.task.dto.TaskRequestDto;
+import com.schedulemanager.task.dto.TaskResponseDto;
 
 import java.util.List;
 

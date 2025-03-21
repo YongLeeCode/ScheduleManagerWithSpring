@@ -1,4 +1,4 @@
-package com.schedulemanager.dto;
+package com.schedulemanager.task.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
