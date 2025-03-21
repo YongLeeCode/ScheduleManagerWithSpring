@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * @packageName : com.schedulemanager.entity
  * @fileName : Task
  * @date : 3/20/25
- * @description :
+ * @description : Task Entity
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
