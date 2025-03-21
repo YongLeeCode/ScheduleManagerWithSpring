@@ -10,17 +10,17 @@ import java.sql.Timestamp;
  * @packageName : com.schedulemanager.dto
  * @fileName : TaskResponseDto
  * @date : 3/20/25
- * @description :
+ * @description : 클라이언트에서 응답으로 받을 데이터입니다.
  */
 @Getter
 public class TaskResponseDto {
-    private Long id;
-    private String title;
-    private String contents;
-    private String userName;
+    private final Long id;
+    private final String title;
+    private final String contents;
+    private final String userName;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private final Timestamp createdAt;
+    private final Timestamp updatedAt;
 
     public TaskResponseDto(Task task) {
         this.id = task.getId();
