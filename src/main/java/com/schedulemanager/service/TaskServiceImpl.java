@@ -8,20 +8,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : yong
  * @packageName : com.schedulemanager.service
  * @fileName : TaskServiceImpl
  * @date : 3/20/25
- * @description :
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 3/20/25        yong       최초 생성
+ * @description : Task의 모든 서비스 로직을 담당하고 있습니다.
  */
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
     TaskRepository taskRepository;
 
     public TaskServiceImpl(TaskRepository taskRepository) {
@@ -36,13 +33,17 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public List<TaskResponseDto> findAllTasks() {
+        // 데이터 조회
         List<Task> tasks = taskRepository.findAll();
+        // Task list -> DTO List 변환
         List<TaskResponseDto> responseDtos = new ArrayList<>();
-        for(Task task : tasks) {
-            responseDtos.add(new TaskResponseDto(task));
-        }
+        tasks.stream().forEach(task -> responseDtos.add(new TaskResponseDto(task)));
         return responseDtos;
     }
 
-
+    @Override
+    public TaskResponseDto findTaskById(long id) {
+        Optional<Task> task = taskRepository.findById(id);
+        return task.map(TaskResponseDto::new).orElse(null);
+    }
 }

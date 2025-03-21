@@ -3,13 +3,14 @@ package com.schedulemanager.repository;
 import com.schedulemanager.entity.Task;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : yong
  * @packageName : com.schedulemanager.repository
  * @fileName : TaskRepository
  * @date : 3/20/25
- * @description :
+ * @description : Task Repository
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -17,5 +18,8 @@ import java.util.List;
  */
 public interface TaskRepository {
     void save(Task task);
+
     List<Task> findAll();
+
+    Optional<Task> findById(long id);
 }
