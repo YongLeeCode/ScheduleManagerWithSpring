@@ -10,7 +10,7 @@ import java.util.List;
  * @packageName : com.schedulemanager.service
  * @fileName : TaskService
  * @date : 3/20/25
- * @description :
+ * @description : Task Service
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -20,4 +20,6 @@ public interface TaskService {
     void saveTask(TaskRequestDto dto);
 
     List<TaskResponseDto> findAllTasks();
+
+    TaskResponseDto findTaskById(long id);
 }
