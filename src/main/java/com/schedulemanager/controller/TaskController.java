@@ -38,7 +38,18 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public TaskResponseDto findTaskById(@PathVariable int id) {
+    public TaskResponseDto findTaskById(@PathVariable long id) {
         return taskService.findTaskById(id);
     }
+
+    @PatchMapping("/{id}")
+    public void updateTask(@RequestBody TaskRequestDto dto, @RequestParam String password, @PathVariable long id) {
+        taskService.updateTask(dto, password, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@RequestParam String password, @PathVariable long id) {
+        taskService.deleteTask(password, id);
+    }
+
 }

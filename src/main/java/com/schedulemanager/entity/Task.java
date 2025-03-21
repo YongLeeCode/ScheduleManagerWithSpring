@@ -28,6 +28,13 @@ public class Task {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    public Task(String title, String contents, String userName) {
+        this.title = title;
+        this.contents = contents;
+        this.userName = userName;
+        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
+    }
+
     public Task(String title, String contents, String userName, String password) {
         this.title = title;
         this.contents = contents;

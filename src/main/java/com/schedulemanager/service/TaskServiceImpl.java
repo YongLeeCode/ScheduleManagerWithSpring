@@ -46,4 +46,15 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> task = taskRepository.findById(id);
         return task.map(TaskResponseDto::new).orElse(null);
     }
+
+    @Override
+    public void updateTask(TaskRequestDto dto, String password, long id) {
+        Task task = new Task(dto.getTitle(), dto.getContents(), dto.getUserName());
+        taskRepository.updateById(task, password, id);
+    }
+
+    @Override
+    public void deleteTask(String password, long id) {
+        taskRepository.deleteById(password, id);
+    }
 }
