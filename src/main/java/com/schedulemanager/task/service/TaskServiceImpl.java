@@ -4,8 +4,12 @@ import com.schedulemanager.task.dto.TaskRequestDto;
 import com.schedulemanager.task.dto.TaskResponseDto;
 import com.schedulemanager.task.entity.Task;
 import com.schedulemanager.task.repository.TaskRepository;
+import com.schedulemanager.user.entity.User;
+import com.schedulemanager.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,16 +23,21 @@ import java.util.Optional;
  */
 @Service
 public class TaskServiceImpl implements TaskService {
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
+    private UserRepository userRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void saveTask(TaskRequestDto dto) {
-        Task task = new Task(dto.getTitle(), dto.getContents(), dto.getUserName(), dto.getPassword());
-        taskRepository.save(task);
+        Optional<User> user = userRepository.findById(dto.getUserId());
+        if(user.isPresent()) {
+            Task task = new Task(dto.getTitle(), dto.getContents(), dto.getUserId());
+            taskRepository.save(task);
+        }
     }
 
     @Override
@@ -49,8 +58,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void updateTask(TaskRequestDto dto, String password, long id) {
-        Task task = new Task(dto.getTitle(), dto.getContents(), dto.getUserName());
-        taskRepository.updateById(task, password, id);
+        Optional<User> user = userRepository.findById(dto.getUserId());
+        if(user.isPresent()) {
+            //update time
+            Timestamp updatedAt = Timestamp.valueOf(LocalDateTime.now());
+            Task task = new Task(dto.getTitle(), dto.getContents(), id, updatedAt);
+            taskRepository.updateById(task, password, id);
+        }
     }
 
     @Override

@@ -23,33 +23,34 @@ public class Task {
     private String title;
     private String contents;
     private String userName;
-    private String password;
+    private long userId;
 
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public Task(String title, String contents, String userName) {
+    // save
+    public Task(String title, String contents, long userId) {
         this.title = title;
         this.contents = contents;
-        this.userName = userName;
-        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
-    }
-
-    public Task(String title, String contents, String userName, String password) {
-        this.title = title;
-        this.contents = contents;
-        this.userName = userName;
-        this.password = password;
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
         this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
+        this.userId = userId;
     }
 
-    public Task(long id, String title, String contents, String userName, String password, Timestamp createdAt, Timestamp updatedAt) {
+    // update
+    public Task(String title, String contents, long userId, Timestamp updatedAt) {
+        this.title = title;
+        this.contents = contents;
+        this.userId = userId;
+        this.updatedAt = updatedAt;
+    }
+
+    //SELECT task.id, task.title, task.contents, user.name, task.created_at, task.updated_at
+    public Task(long id, String title, String contents, String userName, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.title = title;
         this.contents = contents;
         this.userName = userName;
-        this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
