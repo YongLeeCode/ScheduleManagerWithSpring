@@ -18,4 +18,5 @@ public class TaskRequestDto {
     private final String contents;
     private final String userName;
     private final String password;
+    private final long userId;
 }

@@ -26,29 +26,47 @@ public class JdbcTaskRepository implements TaskRepository{
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    @Override
     public void save(Task task) {
-        jdbcTemplate.update("INSERT INTO task(title, contents, name, password, createdAt, updatedAt) VALUES(?, ?, ?, ?, ?, ?);", task.getTitle(), task.getContents(), task.getUserName(), task.getPassword(), task.getCreatedAt(), task.getUpdatedAt());
+        jdbcTemplate.update("INSERT INTO task(title, contents, createdAt, updatedAt, user_id) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?);",
+                task.getTitle(), task.getContents(), task.getCreatedAt(), task.getUpdatedAt(), task.getUserId());
     }
 
     @Override
     public List<Task> findAll() {
-        return jdbcTemplate.query("SELECT * FROM task", taskRowMapper());
+        return jdbcTemplate.query(
+                "SELECT task.id, task.title, task.contents, user.name, task.created_at, task.updated_at " +
+                        "FROM task " +
+                        "INNER JOIN user ON task.user_id = user.id;",
+                taskRowMapper());
     }
 
     @Override
     public Optional<Task> findById(long id) {
-        List<Task> tasks = jdbcTemplate.query("SELECT * FROM task WHERE id = ?", taskRowMapper(), id);
+        List<Task> tasks = jdbcTemplate.query(
+                "SELECT task.id, task.title, task.contents, user.name, task.created_at, task.updated_at " +
+                        "FROM task " +
+                        "INNER JOIN user ON task.user_id = user.id" +
+                        "WHERE task.id = ?;",
+                taskRowMapper(), id);
         return tasks.stream().findAny();
     }
 
     @Override
     public void updateById(Task task, String password, long id) {
-        jdbcTemplate.update("UPDATE task SET title = ?, contents = ?, name = ?, updatedAt = ? WHERE id = ? AND password = ?", task.getTitle(), task.getContents(), task.getUserName(), task.getUpdatedAt(), id, password);
+        jdbcTemplate.update("UPDATE task SET task.title = ?, task.contents = ? task.updatedAt = ? " +
+                "INNER JOIN user ON task.userId = user.id" +
+                "WHERE task.id = ? AND user.password = ?",
+                task.getTitle(), task.getContents(), task.getUpdatedAt(), id, password);
     }
 
     @Override
     public void deleteById(String password, long id) {
-        jdbcTemplate.update("DELETE FROM task WHERE id = ? AND password = ?", id, password);
+        jdbcTemplate.update("DELETE FROM task " +
+                "INNER JOIN user ON task.userId = user.id" +
+                "WHERE task.id = ? AND user.password = ?",
+                id, password);
     }
 
     private RowMapper<Task> taskRowMapper() {
@@ -60,7 +78,6 @@ public class JdbcTaskRepository implements TaskRepository{
                         rs.getString("title"),
                         rs.getString("contents"),
                         rs.getString("name"),
-                        rs.getString("password"),
                         rs.getTimestamp("createdAt"),
                         rs.getTimestamp("updatedAt")
                 );
