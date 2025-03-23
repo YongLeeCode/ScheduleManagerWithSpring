@@ -28,8 +28,8 @@ public class JdbcTaskRepository implements TaskRepository{
 
     @Override
     public void save(Task task) {
-        jdbcTemplate.update("INSERT INTO task(title, contents, createdAt, updatedAt, user_id) " +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?);",
+        jdbcTemplate.update("INSERT INTO task(title, contents, created_at, updated_at, user_id) " +
+                        "VALUES(?, ?, ?, ?, ?);",
                 task.getTitle(), task.getContents(), task.getCreatedAt(), task.getUpdatedAt(), task.getUserId());
     }
 
@@ -74,12 +74,12 @@ public class JdbcTaskRepository implements TaskRepository{
             @Override
             public Task mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new Task(
-                        rs.getLong("id"),
-                        rs.getString("title"),
-                        rs.getString("contents"),
-                        rs.getString("name"),
-                        rs.getTimestamp("createdAt"),
-                        rs.getTimestamp("updatedAt")
+                        rs.getLong("task.id"),
+                        rs.getString("task.title"),
+                        rs.getString("task.contents"),
+                        rs.getString("user.name"),
+                        rs.getTimestamp("task.created_at"),
+                        rs.getTimestamp("task.updated_at")
                 );
             }
         };
