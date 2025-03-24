@@ -37,7 +37,7 @@ public class JdbcTaskRepository implements TaskRepository{
 
     @Override
     public List<Task> findAll() {
-        return jdbcTemplate.query("SELECT * FROM task", taskRowMapper());
+        return jdbcTemplate.query("SELECT * FROM task ORDER BY updated_at DESC", taskRowMapper());
     }
 
     @Override
