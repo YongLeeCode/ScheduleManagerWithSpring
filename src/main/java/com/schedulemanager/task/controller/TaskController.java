@@ -33,8 +33,8 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskResponseDto> findAll() {
-        return taskService.findAllTasks();
+    public List<TaskResponseDto> findAll(@RequestParam int page) {
+        return taskService.findAllTasks(page);
     }
 
     @GetMapping("/{id}")
