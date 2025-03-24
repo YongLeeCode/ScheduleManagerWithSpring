@@ -1,5 +1,6 @@
 package com.schedulemanager.task.repository;
 
+import com.schedulemanager.pagination.Pagination;
 import com.schedulemanager.task.entity.Task;
 
 import java.util.List;
@@ -19,11 +20,13 @@ import java.util.Optional;
 public interface TaskRepository {
     void save(Task task);
 
-    List<Task> findAll();
+    List<Task> findAll(Pagination page);
 
     Optional<Task> findById(long id);
 
     void updateById(Task task, String password, long id);
 
     void deleteById(String password, long id);
+
+    long getTotalTaskQuantity();
 }

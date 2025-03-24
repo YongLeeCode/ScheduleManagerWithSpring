@@ -1,5 +1,6 @@
 package com.schedulemanager.task.repository;
 
+import com.schedulemanager.pagination.Pagination;
 import com.schedulemanager.task.entity.Task;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -34,12 +35,14 @@ public class JdbcTaskRepository implements TaskRepository{
     }
 
     @Override
-    public List<Task> findAll() {
+    public List<Task> findAll(Pagination page) {
         return jdbcTemplate.query(
                 "SELECT task.id, task.title, task.contents, user.name, task.created_at, task.updated_at " +
                         "FROM task " +
-                        "INNER JOIN user ON task.user_id = user.id;",
-                taskRowMapper());
+                        "INNER JOIN user ON task.user_id = user.id " +
+                        "ORDER BY task.id ASC " +
+                        "LIMIT ? OFFSET ?;",
+                taskRowMapper(), page.getLimit(), page.getOffset());
     }
 
     @Override
@@ -67,6 +70,11 @@ public class JdbcTaskRepository implements TaskRepository{
                 "INNER JOIN user ON task.userId = user.id" +
                 "WHERE task.id = ? AND user.password = ?",
                 id, password);
+    }
+
+    @Override
+    public long getTotalTaskQuantity() {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM task;", Long.class);
     }
 
     private RowMapper<Task> taskRowMapper() {
