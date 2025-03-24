@@ -19,7 +19,7 @@ import java.util.List;
 public interface TaskService {
     void saveTask(TaskRequestDto dto);
 
-    List<TaskResponseDto> findAllTasks();
+    List<TaskResponseDto> findAllTasks(int page);
 
     TaskResponseDto findTaskById(long id);
 

@@ -1,5 +1,6 @@
 package com.schedulemanager.task.service;
 
+import com.schedulemanager.pagination.Pagination;
 import com.schedulemanager.task.dto.TaskRequestDto;
 import com.schedulemanager.task.dto.TaskResponseDto;
 import com.schedulemanager.task.entity.Task;
@@ -25,6 +26,7 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
     private TaskRepository taskRepository;
     private UserRepository userRepository;
+    private int QUANTITY_PER_PAGE =  5;
 
     public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
@@ -41,9 +43,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponseDto> findAllTasks() {
+    public List<TaskResponseDto> findAllTasks(int page) {
+        long totalQueryCount = taskRepository.getTotalTaskQuantity();
+
+        Pagination pagination;
+        if(totalQueryCount > ((long) QUANTITY_PER_PAGE * page - QUANTITY_PER_PAGE)
+                && page >= 1) {
+            pagination = new Pagination( QUANTITY_PER_PAGE, page);
+        } else {
+            return new ArrayList<>();
+        }
         // 데이터 조회
-        List<Task> tasks = taskRepository.findAll();
+        List<Task> tasks = taskRepository.findAll(pagination);
         // Task list -> DTO List 변환
         List<TaskResponseDto> responseDtos = new ArrayList<>();
         tasks.stream().forEach(task -> responseDtos.add(new TaskResponseDto(task)));
