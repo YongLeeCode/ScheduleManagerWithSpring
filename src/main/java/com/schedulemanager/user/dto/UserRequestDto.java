@@ -1,5 +1,7 @@
 package com.schedulemanager.user.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserRequestDto {
     private final String name;
+    @Email
     private final String email;
     private final String password;
 }

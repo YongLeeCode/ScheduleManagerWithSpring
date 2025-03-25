@@ -4,9 +4,13 @@ import com.schedulemanager.pagination.Pagination;
 import com.schedulemanager.task.entity.Task;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -28,10 +32,23 @@ public class JdbcTaskRepository implements TaskRepository{
     }
 
     @Override
-    public void save(Task task) {
-        jdbcTemplate.update("INSERT INTO task(title, contents, created_at, updated_at, user_id) " +
-                        "VALUES(?, ?, ?, ?, ?);",
-                task.getTitle(), task.getContents(), task.getCreatedAt(), task.getUpdatedAt(), task.getUserId());
+    public long save(Task task) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                con -> {
+                    PreparedStatement ps = con.prepareStatement(
+                            "INSERT INTO task(title, contents, created_at, updated_at, user_id) VALUES(?, ?, ?, ?, ?);",
+                            Statement.RETURN_GENERATED_KEYS
+                    );
+                    ps.setString(1, task.getTitle());
+                    ps.setString(2, task.getContents());
+                    ps.setTimestamp(3, task.getCreatedAt());
+                    ps.setTimestamp(4, task.getUpdatedAt());
+                    ps.setLong(5, task.getUserId());
+                    return ps;
+                }, keyHolder
+        );
+        return keyHolder.getKey().longValue();
     }
 
     @Override
@@ -57,7 +74,7 @@ public class JdbcTaskRepository implements TaskRepository{
     }
 
     @Override
-    public void updateById(Task task, String password) {
+    public void updateById(Task task) {
         jdbcTemplate.update("UPDATE task SET title = ?, contents = ?, updated_at = ? " +
                 "WHERE id = ?;",
                 task.getTitle(), task.getContents(), task.getUpdatedAt(), task.getId());

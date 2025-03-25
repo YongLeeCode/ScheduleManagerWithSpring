@@ -1,5 +1,9 @@
 package com.schedulemanager.task.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +18,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public class TaskRequestDto {
+    private final long id;
+
+    @Size(max=20)
     private final String title;
+
+    @Size(max=200)
     private final String contents;
+
+    @NotNull
+    private final String password;
+
+    @Positive
     private final long userId;
+
+
 }

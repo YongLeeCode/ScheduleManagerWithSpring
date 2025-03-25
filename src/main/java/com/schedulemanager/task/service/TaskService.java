@@ -17,13 +17,13 @@ import java.util.List;
  * 3/20/25        yong       최초 생성
  */
 public interface TaskService {
-    void saveTask(TaskRequestDto dto, String password);
+    long saveTask(TaskRequestDto dto);
 
     List<TaskResponseDto> findAllTasks(int page);
 
     TaskResponseDto findTaskById(long id);
 
-    void updateTask(TaskRequestDto dto, String password, long id);
+    void updateTask(TaskRequestDto dto);
 
-    void deleteTask(String password, long userId, long id);
+    void deleteTask(TaskRequestDto dto);
 }

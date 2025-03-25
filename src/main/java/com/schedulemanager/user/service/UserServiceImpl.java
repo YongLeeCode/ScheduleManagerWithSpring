@@ -28,9 +28,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void save(UserRequestDto dto) {
+    public long save(UserRequestDto dto) {
         User user = new User(dto.getName(), dto.getEmail(), dto.getPassword());
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
@@ -40,21 +40,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(long id, String password, UserRequestDto dto) {
+    public long updateUser(long id, String password, UserRequestDto dto) {
         User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException("회원 정보를 찾을 수 없습니다."));
         if (user.getPassword().equals(password)) {
             User userEntity = new User(id, dto.getName(), dto.getPassword());
-            userRepository.updateById(userEntity);
+            return userRepository.updateById(userEntity);
         } else {
             throw new RuntimeException("비밀번호가 일치하지 않습니다!");
         }
     }
 
     @Override
-    public void deleteUser(long id, String password) {
+    public long deleteUser(long id, String password) {
         User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException("회원 정보를 찾을 수 없습니다."));
         if (user.getPassword().equals(password)) {
-            userRepository.deleteById(id);
+            return userRepository.deleteById(id);
         } else {
             throw new RuntimeException("비밀번호가 일치하지 않습니다!");
         }

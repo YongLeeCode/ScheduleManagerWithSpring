@@ -18,13 +18,13 @@ import java.util.Optional;
  * 3/20/25        yong       최초 생성
  */
 public interface TaskRepository {
-    void save(Task task);
+    long save(Task task);
 
     List<Task> findAll(Pagination page);
 
     Optional<Task> findById(long id);
 
-    void updateById(Task task, String password);
+    void updateById(Task task);
 
     void deleteById(long id);
 

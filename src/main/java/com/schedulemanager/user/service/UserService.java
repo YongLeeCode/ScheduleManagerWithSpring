@@ -11,11 +11,11 @@ import com.schedulemanager.user.dto.UserResponseDto;
  * @description :
  */
 public interface UserService {
-    void save(UserRequestDto dto);
+    long save(UserRequestDto dto);
 
     UserResponseDto findUserById(long id);
 
-    void updateUser(long id, String password, UserRequestDto dto);
+    long updateUser(long id, String password, UserRequestDto dto);
 
-    void deleteUser(long id, String password);
+    long deleteUser(long id, String password);
 }

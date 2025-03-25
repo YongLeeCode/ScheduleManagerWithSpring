@@ -12,11 +12,11 @@ import java.util.Optional;
  * @description :
  */
 public interface UserRepository {
-    void save(User user);
+    long save(User user);
 
     Optional<User> findById(long id);
 
-    void updateById(User user);
+    long updateById(User user);
 
-    void deleteById(long id);
+    long deleteById(long id);
 }
