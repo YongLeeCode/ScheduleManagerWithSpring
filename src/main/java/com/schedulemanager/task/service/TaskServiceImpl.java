@@ -34,11 +34,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void saveTask(TaskRequestDto dto) {
-        Optional<User> user = userRepository.findById(dto.getUserId());
-        if(user.isPresent()) {
+    public void saveTask(TaskRequestDto dto, String password) {
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NullPointerException("회원이 아니신거같은데요..."));
+        if(user.getPassword().equals(password)) {
             Task task = new Task(dto.getTitle(), dto.getContents(), dto.getUserId());
             taskRepository.save(task);
+        } else {
+            throw new RuntimeException("비밀번호가 틀렸어요");
         }
     }
 
@@ -69,17 +71,23 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void updateTask(TaskRequestDto dto, String password, long id) {
-        Optional<User> user = userRepository.findById(dto.getUserId());
-        if(user.isPresent()) {
-            //update time
-            Timestamp updatedAt = Timestamp.valueOf(LocalDateTime.now());
-            Task task = new Task(dto.getTitle(), dto.getContents(), id, updatedAt);
-            taskRepository.updateById(task, password, id);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NullPointerException("회원 아이디를 확인해주세요"));
+        if(user.getPassword().equals(password)) {
+            Task task = new Task(dto.getTitle(), dto.getContents(), id, dto.getUserId());
+            taskRepository.updateById(task, password);
+        } else {
+            throw new RuntimeException("비밀번호가 틀렸어요");
         }
     }
 
     @Override
-    public void deleteTask(String password, long id) {
-        taskRepository.deleteById(password, id);
+    public void deleteTask(String password, long userId, long id) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("회원 아이디를 확인해주세요"));
+        if(user.getPassword().equals(password)) {
+            taskRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("비밀번호가 틀렸어요");
+        }
+
     }
 }
