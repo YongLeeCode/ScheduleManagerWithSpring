@@ -3,6 +3,7 @@ package com.schedulemanager.user.controller;
 import com.schedulemanager.user.dto.UserRequestDto;
 import com.schedulemanager.user.dto.UserResponseDto;
 import com.schedulemanager.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Long> register(@RequestBody UserRequestDto dto) {
+    public ResponseEntity<Long> register(@Valid @RequestBody UserRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(dto));
     }
 
