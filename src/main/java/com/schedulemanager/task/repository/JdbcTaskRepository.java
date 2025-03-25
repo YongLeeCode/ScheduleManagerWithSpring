@@ -57,19 +57,15 @@ public class JdbcTaskRepository implements TaskRepository{
     }
 
     @Override
-    public void updateById(Task task, String password, long id) {
-        jdbcTemplate.update("UPDATE task SET task.title = ?, task.contents = ? task.updatedAt = ? " +
-                "INNER JOIN user ON task.userId = user.id" +
-                "WHERE task.id = ? AND user.password = ?",
-                task.getTitle(), task.getContents(), task.getUpdatedAt(), id, password);
+    public void updateById(Task task, String password) {
+        jdbcTemplate.update("UPDATE task SET title = ?, contents = ?, updated_at = ? " +
+                "WHERE id = ?;",
+                task.getTitle(), task.getContents(), task.getUpdatedAt(), task.getId());
     }
 
     @Override
-    public void deleteById(String password, long id) {
-        jdbcTemplate.update("DELETE FROM task " +
-                "INNER JOIN user ON task.userId = user.id" +
-                "WHERE task.id = ? AND user.password = ?",
-                id, password);
+    public void deleteById(long id) {
+        jdbcTemplate.update("DELETE FROM task WHERE id = ?;", id);
     }
 
     @Override

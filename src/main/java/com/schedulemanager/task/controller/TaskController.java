@@ -28,8 +28,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public void addNewTask(@RequestBody TaskRequestDto dto) {
-        taskService.saveTask(dto);
+    public void addNewTask(@RequestBody TaskRequestDto dto, @RequestParam String password) {
+        taskService.saveTask(dto, password);
     }
 
     @GetMapping
@@ -48,8 +48,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@RequestParam String password, @PathVariable long id) {
-        taskService.deleteTask(password, id);
+    public void deleteTask(@RequestParam String password, @RequestParam long userId, @PathVariable long id) {
+        taskService.deleteTask(password, userId, id);
     }
 
 }

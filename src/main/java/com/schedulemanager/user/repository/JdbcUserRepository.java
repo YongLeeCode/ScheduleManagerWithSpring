@@ -38,13 +38,13 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     @Override
-    public void updateById(long id, String password, User user) {
-        jdbcTemplate.update("UPDATE user SET name = ?, password = ?, updated_at = ? WHERE id = ? AND password = ?", user.getName(), user.getPassword(), user.getUpdatedAt(), id, password);
+    public void updateById(User user) {
+        jdbcTemplate.update("UPDATE user SET name = ?, password = ?, updated_at = ? WHERE id = ?;", user.getName(), user.getPassword(), user.getUpdatedAt(), user.getId());
     }
 
     @Override
-    public void deleteById(long id, String password) {
-        jdbcTemplate.update("DELETE FROM user WHERE id = ? AND password = ?", id, password);
+    public void deleteById(long id) {
+        jdbcTemplate.update("DELETE FROM user WHERE id = ?;", id);
     }
 
     private RowMapper<User> userRowMapper() {
