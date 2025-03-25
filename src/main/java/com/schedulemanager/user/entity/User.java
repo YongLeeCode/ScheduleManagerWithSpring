@@ -21,7 +21,8 @@ public class User {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public User(String name, String password) {
+    public User(long id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
