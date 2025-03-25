@@ -24,9 +24,9 @@ public interface TaskRepository {
 
     Optional<Task> findById(long id);
 
-    void updateById(Task task, String password, long id);
+    void updateById(Task task, String password);
 
-    void deleteById(String password, long id);
+    void deleteById(long id);
 
     long getTotalTaskQuantity();
 }
