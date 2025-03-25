@@ -3,6 +3,9 @@ package com.schedulemanager.task.controller;
 import com.schedulemanager.task.dto.TaskRequestDto;
 import com.schedulemanager.task.dto.TaskResponseDto;
 import com.schedulemanager.task.service.TaskService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,28 +31,30 @@ public class TaskController {
     }
 
     @PostMapping
-    public void addNewTask(@RequestBody TaskRequestDto dto, @RequestParam String password) {
-        taskService.saveTask(dto, password);
+    public ResponseEntity<String> addNewTask(@RequestBody @Valid TaskRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body("정상적으로 할 일이 생성되었습니다. Task id : " + taskService.saveTask(dto));
     }
 
     @GetMapping
-    public List<TaskResponseDto> findAll(@RequestParam int page) {
-        return taskService.findAllTasks(page);
+    public ResponseEntity<List<TaskResponseDto>> findAll(@RequestParam int page) {
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.findAllTasks(page));
     }
 
     @GetMapping("/{id}")
-    public TaskResponseDto findTaskById(@PathVariable long id) {
-        return taskService.findTaskById(id);
+    public ResponseEntity<TaskResponseDto> findTaskById(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.findTaskById(id));
     }
 
-    @PatchMapping("/{id}")
-    public void updateTask(@RequestBody TaskRequestDto dto, @RequestParam String password, @PathVariable long id) {
-        taskService.updateTask(dto, password, id);
+    @PatchMapping
+    public ResponseEntity<String> updateTask(@RequestBody @Valid TaskRequestDto dto) {
+        taskService.updateTask(dto);
+        return ResponseEntity.status(HttpStatus.OK).body("정상적으로 수정 되었습니다.");
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteTask(@RequestParam String password, @RequestParam long userId, @PathVariable long id) {
-        taskService.deleteTask(password, userId, id);
+    @DeleteMapping
+    public ResponseEntity<String> deleteTask(@RequestBody @Valid TaskRequestDto dto) {
+        taskService.deleteTask(dto);
+        return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제 되었습니다.");
     }
 
 }

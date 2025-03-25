@@ -34,11 +34,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void saveTask(TaskRequestDto dto, String password) {
+    public long saveTask(TaskRequestDto dto) {
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NullPointerException("회원이 아니신거같은데요..."));
-        if(user.getPassword().equals(password)) {
+        if(user.getPassword().equals(dto.getPassword())) {
             Task task = new Task(dto.getTitle(), dto.getContents(), dto.getUserId());
-            taskRepository.save(task);
+            return taskRepository.save(task);
         } else {
             throw new RuntimeException("비밀번호가 틀렸어요");
         }
@@ -70,21 +70,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(TaskRequestDto dto, String password, long id) {
+    public void updateTask(TaskRequestDto dto) {
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NullPointerException("회원 아이디를 확인해주세요"));
-        if(user.getPassword().equals(password)) {
-            Task task = new Task(dto.getTitle(), dto.getContents(), id, dto.getUserId());
-            taskRepository.updateById(task, password);
+        if(user.getPassword().equals(dto.getPassword())) {
+            Task task = new Task(dto.getTitle(), dto.getContents(), dto.getId(), dto.getUserId());
+            taskRepository.updateById(task);
         } else {
             throw new RuntimeException("비밀번호가 틀렸어요");
         }
     }
 
     @Override
-    public void deleteTask(String password, long userId, long id) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("회원 아이디를 확인해주세요"));
-        if(user.getPassword().equals(password)) {
-            taskRepository.deleteById(id);
+    public void deleteTask(TaskRequestDto dto) {
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new NullPointerException("회원 아이디를 확인해주세요"));
+        if(user.getPassword().equals(dto.getPassword()) && user.getId() == dto.getUserId()) {
+            taskRepository.deleteById(dto.getId());
         } else {
             throw new RuntimeException("비밀번호가 틀렸어요");
         }
