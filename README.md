@@ -13,6 +13,7 @@
 - [Spring Boot](https://spring.io/) : v 3.4.3
 - [MySQL](https://www.mysql.com/)
 
+- Validation
 - Java
 - JDBC
 - Lombok
@@ -38,25 +39,49 @@
     - 다음 과제에서 JPA를 사용할 예정
 
 ***
+## Github & Blog
+[깃헙 Lv.0](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.0)  
+[블로그 Lv.0](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+
+[깃헙  Lv.1](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.1)  
+[블로그 Lv.1](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-1)
+
+[깃헙  Lv.2](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.2)  
+[블로그 Lv.2](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-2)
+
+[깃헙  Lv.3](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.3)  
+[블로그 Lv.3](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-3)
+
+[깃헙  Lv.4](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.4)  
+[블로그 Lv.4](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-4)
+
+[깃헙  Lv.5](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.5)  
+[블로그 Lv.5](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-5)
+
+[깃헙  Lv.6](https://github.com/YongLeeCode/ScheduleManagerWithSpring/tree/lv.6)  
+[블로그 Lv.6](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-6)
+
+***
 ## Lv 0. API 명세 및 ERD 작성
 [ERD는 블로그를 확인해주세요](https://velog.io/@yong-lee/Spring-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0)
-### API 명세서
-| 기능 이름       | Method | Url        | Request                                     | Response                | Status        |
-|-------------|--------|------------|---------------------------------------------|-------------------------|---------------|
-| 🔍 모든 일정 보기 | GET    | /task      |                                             | List<TaskInfo> | 200: 정상 조회    | 
-| 🔍 한 일정 보기  | GET    | /task/{id} |                                             | TaskInfo                | 200: 정상 조회    |
-| 📅 일정 만들기   | POST   | /task      | Parameter: password / RequestBody: TaskInfo |                         | 201: 정상 예약    |
-| 🔨 일정 변경하기  | Patch  | /task{id}  | Parameter: password / RequestBody: TaskInfo |                         | 200: 정상 예약 변경 |
-| ❌ 일정 취소하기   | DELETE | /task/{id} | Parameter: password                         |                         | 200: 정상 삭제    |
+## API 명세서
+자세한 명세서는 [(Spring) 일정 관리 API 만들기 Lv 0](https://velog.io/write?id=3c86f10d-14ab-4a40-8fb4-a46a4ee09fd4)에서 확인해주세요.
+### Task domain
+| 기능 이름           | Method | URL | Path Variable | Parameter | Request Body | Response | Status |
+|-----------------|--------| --- | --- | --- | --- | --- | --- |
+| 📅 일정 만들기       | POST   | `/tasks`  |  |  | `TaskRequestDto` | id | `201 Created` (정상 작성) |
+| 🔍 모든 일정 보기|  GET   | `/tasks` |  | page |  | `List<TaskResponseDto>`  | `200 OK` (정상 조회) |
+| 🔍 특정 일정 보기| GET    | `/tasks/{id}`  | id |  |  | `TaskResponseDto`  | `200 OK` (정상 조회) | 
+| 🔨 일정 변경하기 | PATCH  | `/tasks/{id}`  | id | password | `TaskRequestDto` | id | `200 OK` (정상 수정) |
+| ❌ 일정 취소하기 | DELETE | `/tasks/{id}`  | id | password |  | id | `200 OK` (정상 삭제) | 
 
-#### TaskInfo
-~~~java
-long id;
-String title;
-String content;
-DateTime updatedAt;
-String name;
-~~~
+### User domain
+| 기능 이름 | Method | URL | Path Variable | Parameter | Request Body | Response | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 📅 가입하기 | POST | `/users`  |  |  | `UserRequestDto` |  | `201 Created` (정상 가입) |
+| 🔍 유저 정보 보기 | GET | `/users/{id}` | id |  |  | `UserResponseDto`  | `200 OK` (정상 조회) |
+| 🔨 유저 정보 수정 | PATCH | `/users/{id}`  | id | password | `UserRequestDto` | id | `200 OK` (정상 수정) |
+| ❌ 회원 탈퇴하기 | DELETE | `/users/{id}`  | id | password |  | id | `200 OK` (정상 삭제) | 
 
 ***
 ## Lv 1. 일정 생성 및 조회
@@ -144,8 +169,3 @@ String name;
    - [ ]  `할일`은 최대 200자 이내로 제한, 필수값 처리
    - [ ]  `비밀번호`는 필수값 처리
    - [ ]  담당자의 `이메일` 정보가 형식에 맞는지 확인
-
-
-***
-- 시간 남았을 때 도전해볼만한 것
-  - 날짜 별로 어떻게 할건지
